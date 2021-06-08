@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<!--
+    Checkstyle-Configuration: checkStyleIntegration    Description: none
+	05 september
+	Remove of getByte rule
+	Change of soverity ( Warning to error)
+-->
+<module name="Checker">
+  <property name="severity" value="error"/>
+   <module name="TreeWalker">
+	<!-- System.out.* -->
+      <module name="Regexp">
+		  <property name="id" value="systemOut"/>
+		  <property name="format" value="System\.out\.*"/>
+		  <property name="illegalPattern" value="true"/>
+		  <property name="ignoreComments" value="true"/>
+		  <property name="message" value="[System.out.* directs output to the console should be replaced with logger debugging.]"/>
+	  </module>
+	
+	<!-- System.err.* -->
+	  <module name="Regexp">
+	      <property name="id" value="systemErr"/>
+		  <property name="format" value="System\.err\.*"/>
+		  <property name="illegalPattern" value="true"/>
+		  <property name="ignoreComments" value="true"/>
+		  <property name="message" value="[System.err.* directs output to the console should be replaced with logger debugging.]"/>
+      </module>
+	
+	<!-- System.set* -->
+    <module name="Regexp">
+      <property name="format" value="System\.setProperties"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message" value="[System.setProperties is forbidden]"/>
+    </module>
+	<module name="Regexp">
+	  <property name="id" value="systemSetProperty"/>
+      <property name="format" value="System\.setProperty"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message" value="[System.setProperty is forbidden]"/>
+    </module>
+	<module name="Regexp">
+      <property name="format" value="System\.setOut"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message" value="[System.setOut is forbidden]"/>
+    </module>
+	<module name="Regexp">
+      <property name="format" value="System\.setErr"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message" value="[System.setErr is forbidden]"/>
+    </module>
+	<!-- Remove deprecated Map implementations -->
+	<module name="Regexp">
+        <property name="format" value="import com.coface.corp.framework.util.*Map;"/>
+        <property name="illegalPattern" value="true"/>
+        <property name="ignoreComments" value="true"/>
+        <property name="message" value="Illegal import : use java.util implementation instead."/>
+	</module> 
+	<!-- Instructions forbidden in BC but they are authorized in Batch-->
+	<!-- System.exit, System.runFinalization, System.runFinalizersOnExit, Runtime.getRuntime and System.gc -->
+	
+	<module name="Regexp">
+	  <property name="id" value="systemExit"/>
+      <property name="format" value="System\.exit"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message"
+				value="[System.exit is forbidden in business component. For BATCH component, please use com.coface.corp.framework.batch.BatchHelper.exit()]" />
+	 </module>
+	<module name="Regexp">
+      <property name="id" value="systemRunFinalization"/>
+      <property name="format" value="System\.runFinalization"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message"
+				value="[System.runFinalization is forbidden in business component. For BATCH component, please use com.coface.corp.framework.batch.BatchHelper.runFinalization()]" />
+	 </module>
+	<module name="Regexp">
+      <property name="id" value="systemRunFinalizersOnExit"/>
+      <property name="format" value="System\.runFinalizersOnExit"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message"
+				value="[System.runFinalizersOnExit is forbidden in business component. For BATCH component, please use com.coface.corp.framework.batch.BatchHelper.runFinalization()]" />
+	</module>
+	<module name="Regexp">
+      <property name="id" value="systemGc"/>
+      <property name="format" value="System\.gc"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message"
+				value="[System.gc is forbidden in business component. For BATCH component, please use com.coface.corp.framework.batch.BatchHelper.gc()]"/>
+	</module>
+   
+    <!--It is forbidden to use framework internal classes -->
+	<module name="IllegalImport">
+      <property name="severity" value="warning"/>
+      <property name="illegalPkgs" value="com.coface.corp.framework.batch.internal,
+	  com.coface.corp.framework.cache.internal,
+	  com.coface.corp.framework.cns.internal,
+	  com.coface.corp.framework.configuration.internal,
+	  com.coface.corp.framework.i18n.internal,
+	  com.coface.corp.framework.jms.internal,
+	  com.coface.corp.framework.management.internal,
+	  com.coface.corp.framework.persistence.internal,
+	  com.coface.corp.framework.profiling.internal,
+	  com.coface.corp.framework.reference.internal,
+	  com.coface.corp.framework.remote.internal,
+	  com.coface.corp.framework.remote.proxy.internal,
+	  com.coface.corp.framework.security.internal,
+	  com.coface.corp.framework.startup.internal,
+	  com.coface.corp.framework.task.internal,
+	  com.coface.corp.framework.test.internal,
+	  com.coface.corp.framework.transaction.internal,
+	  com.coface.corp.framework.xml.internal"/>
+      <message key="import.illegal" value= "Illegal import: The use of framework internal classes is forbidden - {0}."/>
+    </module>
+	
+    <!-- Runtime.getRuntime -->
+	<module name="Regexp">
+	  <property name="id" value="runtimeGetRuntime"/>
+      <property name="format" value="Runtime\.getRuntime"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+	  <property name="message"
+				value="[Runtime.getRuntime is forbidden. For BATCH component, please use com.coface.corp.framework.batch.BatchHelper.getRuntime()]"/>
+	 </module>
+	<!-- Others  rules  -->
+	<module name="Regexp">
+	  <property name="id" value="printStackTrace"/>
+      <property name="format" value="\.printStackTrace\(\s*\)"/>
+	  <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <property name="message" value="printStackTrace directs output to the console should be replaced with logger debugging."/>
+    </module>
+
+</module>
+</module>
